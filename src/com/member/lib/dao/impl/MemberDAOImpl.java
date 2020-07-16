@@ -155,7 +155,7 @@ public class MemberDAOImpl implements MemberDAO {
 		ResultSet rs = null;
 		try {
 			con = Connector.open();
-			String sql = "select m_num, m_name, m_id, m_pwd, m_credat from member where b_num=?";
+			String sql = "select m_num, m_name, m_id, m_pwd, m_credat from member where m_num=?";
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, mNum);
 			rs = ps.executeQuery();

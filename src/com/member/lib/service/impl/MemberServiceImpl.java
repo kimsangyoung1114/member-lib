@@ -1,6 +1,7 @@
 package com.member.lib.service.impl;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +25,14 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public Map<String, Object> updateMember(Map<String, Object> member) {
-		// TODO Auto-generated method stub
-		return null;
+		int result = memberDAO.updateMember(member);
+		Map<String, Object> rMap = new HashMap<>();
+		rMap.put("msg", "멤버수정 완료~");
+		if(result!=1) {
+			rMap.put("msg", "멤버수정 오류!");
+		}
+		rMap.put("cnt", result);
+		return rMap;
 	}
 
 	@Override
@@ -42,14 +49,12 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public List<Map<String, Object>> selectMemberList(Map<String, Object> member) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.selectMemberList(member);
 	}
 
 	@Override
 	public Map<String, Object> selectMember(int mNum) {
-		// TODO Auto-generated method stub
-		return null;
+		return memberDAO.selectMember(mNum);
 	}
 
 	public static void main(String[] args) {
@@ -58,12 +63,28 @@ public class MemberServiceImpl implements MemberService {
 //		System.out.println(rMap);
 		Map<String,Object> member = new HashMap<>();
 		member.put("m_name", "차차");
-		member.put("m_id", "chacha");
+		member.put("m_id", "chacha1");
 		member.put("m_pwd", "1234");
-		Map<String,Object> rMap = memberService.insertMember(member);
-		System.out.println(rMap);
+		member.put("m_num", 1);
+//		Map<String,Object> rMap = memberService.insertMember(member);
+//		System.out.println(rMap);
+		List<Map<String,Object>> memberList = memberService.selectMemberList(member);
+		for(Map<String,Object> mem:memberList) {
+			System.out.println(mem);
+		}
+		System.out.println(memberService.updateMember(member));
+		memberList = memberService.selectMemberList(member);
+		for(Map<String,Object> mem:memberList) {
+			System.out.println(mem);
+		}
 	}
 }
+
+
+
+
+
+
 
 
 
