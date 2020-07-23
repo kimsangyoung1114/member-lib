@@ -11,10 +11,7 @@ import com.member.lib.dao.BookDAO;
 import com.member.lib.dao.impl.BookDAOImpl;
 import com.member.lib.service.BookService;
 
-/**
- * @author Administrator
- *
- */
+
 public class BookServiceImpl implements BookService {
 	private BookDAO bookDAO = new BookDAOImpl();
 	

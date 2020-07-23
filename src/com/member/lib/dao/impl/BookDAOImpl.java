@@ -22,7 +22,7 @@ public class BookDAOImpl implements BookDAO {
 		try {
 			con = Connector.open();
 			String sql = "insert into book(b_num, b_title, b_author, b_credat, b_desc)";
-			sql += " values(seq_book_b_num.nextval, ?,?,sysdate,?)";
+			sql += " values(seq_book_b_num.nexctval, ?,?,sysdate,?)";
 			ps = con.prepareStatement(sql);
 			ps.setString(1, book.get("b_title").toString());
 			ps.setString(2, book.get("b_author").toString());
