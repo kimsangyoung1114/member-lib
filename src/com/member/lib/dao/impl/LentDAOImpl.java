@@ -117,7 +117,9 @@ public class LentDAOImpl implements LentDAO {
 		ResultSet rs = null;
 		try {
 			con = Connector.open();
-			String sql = "select l_num, l_lentdate, l_recdate, m_num, b_num from lent";
+			String sql = "SELECT L.*,M.M_NAME,B.B_TITLE FROM LENT L, MEMBER M, BOOK B\r\n" + 
+					"WHERE L.M_NUM = M.M_NUM\r\n" + 
+					"AND L.B_NUM = B.B_NUM";
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
@@ -127,6 +129,8 @@ public class LentDAOImpl implements LentDAO {
 				map.put("l_recdate", rs.getString("l_recdate"));
 				map.put("m_num", rs.getString("m_num"));
 				map.put("b_num", rs.getString("b_num"));
+				map.put("m_name", rs.getString("m_name"));
+				map.put("b_title", rs.getString("b_title"));
 				lentList.add(map);
 			}
 		} catch (Exception e) {
@@ -181,6 +185,42 @@ public class LentDAOImpl implements LentDAO {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> selectNoLentBookList() {
+		List<Map<String, Object>> lentList = new ArrayList<Map<String, Object>>();
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			con = Connector.open();
+			String sql = "select b_num,b_title from book\r\n" + 
+					" where b_num not in(select b_num from lent\r\n" + 
+					" where l_recdate is null)";
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Map<String, Object> map = new HashMap<>();
+				map.put("b_num", rs.getInt("b_num"));
+				map.put("b_title", rs.getString("b_title"));
+				lentList.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (ps != null) {
+					ps.close();
+				}
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return lentList;
 	}
 
 }

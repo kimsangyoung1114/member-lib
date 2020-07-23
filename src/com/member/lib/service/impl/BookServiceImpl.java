@@ -29,26 +29,31 @@ public class BookServiceImpl implements BookService {
 
 	@Override
 	public Map<String, Object> updateBook(Map<String, Object> book) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> rMap = new HashMap<>();
+		int result = bookDAO.updateBook(book);
+		rMap.put("msg", (result==1)?"도서수정 성공":"도서수정 실패");
+		rMap.put("cnt", result);
+		return rMap;
 	}
 
 	@Override
 	public Map<String, Object> deleteBook(int bNum) {
-		// TODO Auto-generated method stub
-		return null;
+		Map<String, Object> rMap = new HashMap<>();
+		int result = bookDAO.deleteBook(bNum);
+		rMap.put("msg", (result==1)?"도서삭제 성공":"도서삭제 실패");
+		rMap.put("cnt", result);
+		return rMap;
 	}
 
 	@Override
 	public List<Map<String, Object>> selectBookList(Map<String, Object> book) {
 		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.selectBookList(book);
 	}
 
 	@Override
 	public Map<String, Object> selectBook(int bNum) {
-		// TODO Auto-generated method stub
-		return null;
+		return bookDAO.selectBook(bNum);
 	}
 	
 	public static void main(String[] args) {
